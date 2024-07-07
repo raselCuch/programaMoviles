@@ -1,13 +1,16 @@
 package com.example.proyectoprueba;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,7 +25,7 @@ public class VerActivity extends AppCompatActivity {
     EditText txtNombre, txtTelefono, txtCorreo;
     Button btnGuarda, btnRegresar;
 
-    FloatingActionButton fabEditar;
+    FloatingActionButton fabEditar, fabEliminar;
 
 
     Contactos contacto;
@@ -38,7 +41,8 @@ public class VerActivity extends AppCompatActivity {
         txtTelefono = findViewById(R.id.txtTelefono);
         txtCorreo = findViewById(R.id.txtCorreoElectronico);
         btnGuarda = findViewById(R.id.btnGuarda);
-        fabEditar = findViewById(R.id.fatEliminar);
+        fabEditar = findViewById(R.id.fatEditar);
+        fabEliminar = findViewById(R.id.fatEliminar);
 
         btnRegresar = findViewById(R.id.btnRegresar);
 
@@ -49,9 +53,9 @@ public class VerActivity extends AppCompatActivity {
             }
         });
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null){
+            if (extras == null) {
                 id = Integer.parseInt(null);
             } else {
                 id = extras.getInt("ID");
@@ -63,7 +67,7 @@ public class VerActivity extends AppCompatActivity {
         DbContactos dbContactos = new DbContactos(VerActivity.this);
         contacto = dbContactos.verContacto(id);
 
-        if(contacto != null){
+        if (contacto != null) {
             txtNombre.setText(contacto.getNombre());
             txtTelefono.setText(contacto.getTelefono());
             txtCorreo.setText(contacto.getCorreo_electornico());
@@ -84,9 +88,38 @@ public class VerActivity extends AppCompatActivity {
             }
         });
 
+        fabEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(VerActivity.this);
+                builder.setMessage("¿Desea eliminar este contacto?")
+                        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (dbContactos.eliminarContacto(id)) {
+                                    lista();
+                                    Toast.makeText(VerActivity.this, "Se elimino el registro", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(VerActivity.this, "No se elimino el registro", Toast.LENGTH_LONG).show();
+                            }
+                        }).show();
+            }
+        });
+
+
     }
 
-    private void regresar(){
+    private void lista() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void regresar() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
