@@ -12,11 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectoprueba.db.DbContactos;
 import com.example.proyectoprueba.entidades.Contactos;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class EditarActivity extends AppCompatActivity {
 
     EditText txtNombre, txtTelefono, txtCorreo;
     Button btnGuarda, btnRegresar;
+
+    FloatingActionButton fabEditar, fabEliminar;
+
     boolean correcto = false;
 
     Contactos contacto;
@@ -32,6 +36,12 @@ public class EditarActivity extends AppCompatActivity {
         txtTelefono = findViewById(R.id.txtTelefono);
         txtCorreo = findViewById(R.id.txtCorreoElectronico);
         btnGuarda = findViewById(R.id.btnGuarda);
+
+        fabEditar = findViewById(R.id.fatEditar);
+        fabEditar.setVisibility(View.INVISIBLE);
+
+        fabEliminar = findViewById(R.id.fatEliminar);
+        fabEliminar.setVisibility(View.INVISIBLE);
 
         btnRegresar = findViewById(R.id.btnRegresar);
 
