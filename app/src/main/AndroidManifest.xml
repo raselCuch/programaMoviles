@@ -16,6 +16,9 @@
             android:name=".VerActivity"
             android:exported="false" />
         <activity
+            android:name=".EditarActivity"
+            android:exported="false" />
+        <activity
             android:name=".NuevoActivity"
             android:exported="false" />
         <activity
